@@ -62,15 +62,15 @@ public class GamePanel extends JPanel implements Runnable {
 		pieces.add(new Rook(new Point(0, 7), "white", "rook", false));
 		pieces.add(new Rook(new Point(7, 7), "white", "rook", false));
 
-		pieces.add(new Knight(new Point(1, 0), "black", "knight", false));
-		pieces.add(new Knight(new Point(6, 0), "black", "knight", false));
-		pieces.add(new Knight(new Point(1, 7), "white", "knight", false));
-		pieces.add(new Knight(new Point(6, 7), "white", "knight", false));
-
-		pieces.add(new Bishop(new Point(2, 0), "black", "bishop", false));
-		pieces.add(new Bishop(new Point(5, 0), "black", "bishop", false));
-		pieces.add(new Bishop(new Point(2, 7), "white", "bishop", false));
-		pieces.add(new Bishop(new Point(5, 7), "white", "bishop", false));
+//		pieces.add(new Knight(new Point(1, 0), "black", "knight", false));
+//		pieces.add(new Knight(new Point(6, 0), "black", "knight", false));
+//		pieces.add(new Knight(new Point(1, 7), "white", "knight", false));
+//		pieces.add(new Knight(new Point(6, 7), "white", "knight", false));
+//
+//		pieces.add(new Bishop(new Point(2, 0), "black", "bishop", false));
+//		pieces.add(new Bishop(new Point(5, 0), "black", "bishop", false));
+//		pieces.add(new Bishop(new Point(2, 7), "white", "bishop", false));
+//		pieces.add(new Bishop(new Point(5, 7), "white", "bishop", false));
 
 		pieces.add(new Queen(new Point(3, 0), "black", "queen", false));
 		pieces.add(new Queen(new Point(3, 7), "white", "queen", false));
@@ -125,9 +125,12 @@ public class GamePanel extends JPanel implements Runnable {
 			if (activeP != null) {
 				System.out.println(activeP.color + " " + activeP.name);
 				Move tmpMove = activeP.validMove(board);
+				
 				if (tmpMove != null) {
+					
 					activeP.updatePosition();
 					board.performMove(tmpMove);
+					
 					if (tmpMove.getCapturedPiece() != null) {
 						for (Piece iPiece : simPieces) {
 							if (iPiece.equals(tmpMove.getCapturedPiece())) {
@@ -136,6 +139,7 @@ public class GamePanel extends JPanel implements Runnable {
 							}
 						}
 					}
+					
 					currentColor = (currentColor == "white" ? "black" : "white");
 				} else {
 					activeP.returnPosition();

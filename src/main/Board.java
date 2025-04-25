@@ -29,9 +29,25 @@ public class Board {
         }
 	}
 	
+	public boolean checkRowEmpty(int col, int row, int numRow) {
+		for (int i = row; i < row + numRow; ++i) {
+			if (piece[i][col] != null) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public void performMove(Move move) {
 		piece[move.getTo().x][move.getTo().y] = move.getMovedPiece();
 		piece[move.getFrom().x][move.getFrom().y] = null;
+		if (move.getCastlingPiece() != null) {
+			Point rookPos = move.getCastlingPiece().position;
+			if (rookPos.x == 7) {
+				piece[rookPos.x][rookPos.y].position = new Point(rookPos.x - 2, rookPos.y);
+				piece[rookPos.x][rookPos.y].updatePosition();
+			}
+		}
 	}
 	
 	public Piece getPiece(Point pos) {

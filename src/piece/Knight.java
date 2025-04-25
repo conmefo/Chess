@@ -24,7 +24,7 @@ public class Knight extends Piece {
             if (board.inBoard(to)) {
                 Piece captured = board.getPiece(to);
                 if (captured == null || !captured.color.equals(this.color)) {
-                    validMoves.add(new Move(prepos, to, this, captured, null, false, false, false));
+                    validMoves.add(new Move(prepos, to, this, captured, null, null, null, false));
                 }
             }
         }

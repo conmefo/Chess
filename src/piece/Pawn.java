@@ -19,12 +19,12 @@ public class Pawn extends Piece {
         // Move 1 step
         Point oneStep = new Point(prepos.x, prepos.y + dir);
         if (board.inBoard(oneStep) && board.getPiece(oneStep) == null) {
-            validMoves.add(new Move(prepos, oneStep, this, null, null, false, false, false));
+            validMoves.add(new Move(prepos, oneStep, this, null, null, null, null, false));
 
             // Move 2 steps
             Point twoStep = new Point(prepos.x, prepos.y + 2 * dir);
             if (!hasMoved && board.inBoard(twoStep) && board.getPiece(twoStep) == null) {
-                validMoves.add(new Move(prepos, twoStep, this, null, null, false, false, true));
+                validMoves.add(new Move(prepos, twoStep, this, null, null, null, null, true));
             }
         }
 
@@ -35,7 +35,7 @@ public class Pawn extends Piece {
             if (board.inBoard(to)) {
                 Piece captured = board.getPiece(to);
                 if (captured != null && !captured.color.equals(this.color)) {
-                    validMoves.add(new Move(prepos, to, this, captured, null, false, false, false));
+                    validMoves.add(new Move(prepos, to, this, captured, null, null, null, false));
                 }
             }
         }

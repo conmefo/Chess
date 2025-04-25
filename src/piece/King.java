@@ -9,9 +9,12 @@ import main.Board;
 public class King extends Piece {
     private final int[] dx = {1, -1, 0, 0, 1, 1, -1, -1};
     private final int[] dy = {0, 0, 1, -1, 1, -1, 1, -1};
+    
+    boolean isChecked;
 
     public King(Point position, String color, String name, boolean hasMoved) {
         super(position, color, name, hasMoved);
+        isChecked = false;
     }
 
     @Override
@@ -26,12 +29,17 @@ public class King extends Piece {
             if (board.inBoard(to)) {
                 Piece captured = board.getPiece(to);
                 if (captured == null || !captured.color.equals(this.color)) {
-                    validMoves.add(new Move(prepos, to, this, captured, null, false, false, false));
+                    validMoves.add(new Move(prepos, to, this, captured, null, null, null, false));
                 }
             }
+        }       
+        
+        //Right Castling
+  
+        if (hasMoved == false && board.getPiece(new Point(prepos.x + 3, prepos.y)).hasMoved == false 
+        		&& board.checkRowEmpty(prepos.y, prepos.x + 1, 2) == true) {
+        	validMoves.add(new Move(prepos, new Point(prepos.x + 1, prepos.y), this, null, null, board.getPiece(new Point(prepos.x + 3, prepos.y)), null, false));
         }
-
-        // Castling logic can be added here
 
         return validMoves;
     }

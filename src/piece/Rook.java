@@ -29,10 +29,10 @@ public class Rook extends Piece {
                 Piece target = board.getPiece(npos);
 
                 if (target == null) {
-                    validMoves.add(new Move(new Point(prepos), new Point(npos), this, null, null, false, false, false));
+                    validMoves.add(new Move(new Point(prepos), new Point(npos), this, null, null, null, null, false));
                 } else {
                     if (!target.color.equals(this.color)) {
-                    	validMoves.add(new Move(new Point(prepos), new Point(npos), this, target, null, false, false, false));
+                    	validMoves.add(new Move(new Point(prepos), new Point(npos), this, target, null, null, null, false));
                     }
                     break; 
                 }

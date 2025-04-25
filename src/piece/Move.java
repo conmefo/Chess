@@ -1,4 +1,5 @@
 package piece;
+
 import java.awt.Point;
 
 public class Move {
@@ -7,19 +8,19 @@ public class Move {
     private Piece movedPiece;
     private Piece capturedPiece;
     private Piece promotedTo;
-    private boolean isCastling;
-    private boolean isEnPassant;
+    private Piece castlingPiece; // Replace isCastling with a Piece reference
+    private Piece enPassantPiece; // Replace isEnPassant with a Piece reference
     private boolean isDoubleForward;
 
     public Move(Point from, Point to, Piece movedPiece, Piece capturedPiece, Piece promotedTo,
-                boolean isCastling, boolean isEnPassant, boolean isDoubleForward) {
+                Piece castlingPiece, Piece enPassantPiece, boolean isDoubleForward) {
         this.from = from;
         this.to = to;
         this.movedPiece = movedPiece;
         this.capturedPiece = capturedPiece;
         this.promotedTo = promotedTo;
-        this.isCastling = isCastling;
-        this.isEnPassant = isEnPassant;
+        this.castlingPiece = castlingPiece; // Initialize castlingPiece
+        this.enPassantPiece = enPassantPiece; // Initialize enPassantPiece
         this.isDoubleForward = isDoubleForward;
     }
 
@@ -29,7 +30,7 @@ public class Move {
     public Piece getMovedPiece() { return movedPiece; }
     public Piece getCapturedPiece() { return capturedPiece; }
     public Piece getPromotedTo() { return promotedTo; }
-    public boolean isCastling() { return isCastling; }
-    public boolean isEnPassant() { return isEnPassant; }
+    public Piece getCastlingPiece() { return castlingPiece; } // Getter for castlingPiece
+    public Piece getEnPassantPiece() { return enPassantPiece; } // Getter for enPassantPiece
     public boolean isDoubleForward() { return isDoubleForward; }
 }
