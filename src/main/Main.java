@@ -3,7 +3,6 @@ package main;
 import javax.swing.*;
 
 public class Main {
-
 	public static void main(String[] args) {
 		JFrame window = new JFrame("Chess");
 		
@@ -17,6 +16,8 @@ public class Main {
 		
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
+
+		System.out.println("Game started!");
 		
 		gamePanel.LaunchGame();
 	}

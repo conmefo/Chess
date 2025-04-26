@@ -28,6 +28,7 @@ public abstract class Piece {
 		this.hasMoved = hasMoved;
 
 		updateXYFromPosition();
+		
 		this.image = loadImage("/assets/" + color + "-" + name + ".png");
 	}
 
@@ -48,6 +49,7 @@ public abstract class Piece {
 
 	private BufferedImage loadImage(String imagePath) {
 		BufferedImage img = null;
+		System.out.println("Loading image: " + imagePath);
 		try {
 			img = ImageIO.read(getClass().getResourceAsStream(imagePath));
 		} catch (IOException e) {
@@ -91,8 +93,6 @@ public abstract class Piece {
 		List <Move> tmp = getValidMoves(board);
 		
 		Point checkPosition = new Point(getCol(getX(position.x)), getRow(getY(position.y))); 
-		
-		
 		for (Move iMove : tmp) {
 			if (iMove.getTo().equals(checkPosition)) {
 				return iMove;

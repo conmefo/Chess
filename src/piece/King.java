@@ -29,16 +29,23 @@ public class King extends Piece {
             if (board.inBoard(to)) {
                 Piece captured = board.getPiece(to);
                 if (captured == null || !captured.color.equals(this.color)) {
-                    validMoves.add(new Move(prepos, to, this, captured, null, null, null, false));
+                    validMoves.add(new Move(prepos, to, this, captured, false, null, null, false));
                 }
             }
         }       
         
-        //Right Castling
-  
-        if (hasMoved == false && board.getPiece(new Point(prepos.x + 3, prepos.y)).hasMoved == false 
-        		&& board.checkRowEmpty(prepos.y, prepos.x + 1, 2) == true) {
-        	validMoves.add(new Move(prepos, new Point(prepos.x + 1, prepos.y), this, null, null, board.getPiece(new Point(prepos.x + 3, prepos.y)), null, false));
+        //Castling
+        if (hasMoved == false){
+            if (board.getPiece(new Point(prepos.x + 3, prepos.y)).hasMoved == false 
+                && board.checkRowEmpty(prepos.y, prepos.x + 1, 2) == true) {
+                    validMoves.add(new Move(prepos, new Point(prepos.x + 2, prepos.y), this, null, false, board.getPiece(new Point(prepos.x + 3, prepos.y)), null, false));
+            }
+            if (board.getPiece(new Point(prepos.x - 4, prepos.y)).hasMoved == false 
+                    && board.checkRowEmpty(prepos.y, prepos.x - 3, 3) == true) {
+                	validMoves.add(new Move(prepos, new Point(prepos.x - 2, prepos.y), this, null, false, board.getPiece(new Point(prepos.x - 4, prepos.y)), null, false));
+            }
+            System.out.println(board.checkRowEmpty(prepos.y, prepos.x - 3, 3));
+            System.out.println(board.getPiece(new Point(prepos.x - 4, prepos.y)).hasMoved);
         }
 
         return validMoves;

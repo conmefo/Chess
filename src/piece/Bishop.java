@@ -29,10 +29,10 @@ public class Bishop extends Piece {
                 Piece target = board.getPiece(npos);
 
                 if (target == null) {
-                    validMoves.add(new Move(new Point(prepos), new Point(npos), this, null, null, null, null, false));
+                    validMoves.add(new Move(new Point(prepos), new Point(npos), this, null, false, null, null, false));
                 } else {
                     if (!target.color.equals(this.color)) {
-                    	validMoves.add(new Move(new Point(prepos), new Point(npos), this, target, null, null, null, false));
+                    	validMoves.add(new Move(new Point(prepos), new Point(npos), this, target, false, null, null, false));
                     }
                     break; 
                 }

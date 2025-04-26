@@ -1,81 +1,27 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Thông tin cơ bản về dự án của bạn -->
-    <groupId>com.yourcompany</groupId> <!-- Thay bằng tên group của bạn, ví dụ: com.mychess -->
-    <artifactId>simple-chess-game</artifactId> <!-- Tên định danh cho dự án -->
-    <version>1.0-SNAPSHOT</version> <!-- Phiên bản dự án -->
-    <packaging>jar</packaging> <!-- Đóng gói thành file JAR -->
-
-    <name>Simple Chess Game</name>
-    <description>A simple chess game implemented in Java Swing.</description>
-
-    <properties>
-        <!-- Cấu hình encoding và phiên bản Java -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source> <!-- Phiên bản Java nguồn (ít nhất là 8) -->
-        <maven.compiler.target>11</maven.compiler.target> <!-- Phiên bản Java đích -->
-    </properties>
+    <groupId>com.example</groupId>
+    <artifactId>chess</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
     <dependencies>
-        <!-- Dự án của bạn không yêu cầu thư viện bên ngoài (chỉ dùng Java Swing/AWT) -->
-        <!-- Nếu sau này cần thêm thư viện, bạn sẽ thêm vào đây -->
-        <!-- Ví dụ:
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>example-library</artifactId>
-            <version>1.2.3</version>
-        </dependency>
-        -->
+        <!-- Add your dependencies here -->
     </dependencies>
 
     <build>
-        <!-- Chỉ định thư mục mã nguồn (mặc định là src/main/java nhưng ghi rõ cũng tốt) -->
-        <sourceDirectory>src/main/java</sourceDirectory>
-        <!-- Chỉ định thư mục tài nguyên (mặc định là src/main/resources) -->
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
-
+        <sourceDirectory>src</sourceDirectory>
         <plugins>
-            <!-- Plugin để biên dịch mã nguồn Java -->
+            <!-- Compiler plugin to specify Java version -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version> <!-- Phiên bản plugin -->
+                <version>3.8.1</version>
                 <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                </configuration>
-            </plugin>
-
-            <!-- Plugin để tạo file JAR và chỉ định Main Class -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version> <!-- Phiên bản plugin -->
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <!-- Chỉ định lớp chứa hàm main để JAR có thể chạy trực tiếp -->
-                            <mainClass>main.Main</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-
-            <!-- Plugin (tùy chọn) để chạy ứng dụng trực tiếp từ Maven -->
-             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.0.0</version> <!-- Phiên bản plugin -->
-                <configuration>
-                     <!-- Chỉ định lớp chứa hàm main để chạy bằng mvn exec:java -->
-                    <mainClass>main.Main</mainClass>
+                    <source>24</source> <!-- Replace with your Java version -->
+                    <target>24</target> <!-- Replace with your Java version -->
                 </configuration>
             </plugin>
         </plugins>

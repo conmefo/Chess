@@ -19,12 +19,13 @@ public class Pawn extends Piece {
         // Move 1 step
         Point oneStep = new Point(prepos.x, prepos.y + dir);
         if (board.inBoard(oneStep) && board.getPiece(oneStep) == null) {
-            validMoves.add(new Move(prepos, oneStep, this, null, null, null, null, false));
+            boolean isPromotion = (oneStep.y == 0 || oneStep.y == 7); // Check for promotion
+            validMoves.add(new Move(prepos, oneStep, this, null, isPromotion, null, null, false));
 
             // Move 2 steps
             Point twoStep = new Point(prepos.x, prepos.y + 2 * dir);
             if (!hasMoved && board.inBoard(twoStep) && board.getPiece(twoStep) == null) {
-                validMoves.add(new Move(prepos, twoStep, this, null, null, null, null, true));
+                validMoves.add(new Move(prepos, twoStep, this, null, false, null, null, true));
             }
         }
 
@@ -35,12 +36,24 @@ public class Pawn extends Piece {
             if (board.inBoard(to)) {
                 Piece captured = board.getPiece(to);
                 if (captured != null && !captured.color.equals(this.color)) {
-                    validMoves.add(new Move(prepos, to, this, captured, null, null, null, false));
+                    boolean isPromotion = (to.y == 0 || to.y == 7); // Check for promotion
+                    validMoves.add(new Move(prepos, to, this, captured, isPromotion, null, null, false));
                 }
             }
         }
 
+        // En Passant
+        if (board.lastMove != null && board.lastMove.isDoubleForward() == true) {
+            Move lastMove = board.lastMove;
+            Point lastFrom = lastMove.getFrom();
+            Point lastTo = lastMove.getTo();
+            
+            if (Math.abs(lastTo.x - prepos.x) == 1 && lastTo.y == prepos.y) {
+                Point enPassantTarget = new Point(lastTo.x, lastTo.y + dir);
+                validMoves.add(new Move(prepos, enPassantTarget, this, board.getPiece(enPassantTarget), false, null, lastMove.getMovedPiece(), false));   
+            }
+        }
+        
         return validMoves;
     }
-
 }
