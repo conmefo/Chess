@@ -49,18 +49,18 @@ public class GamePanel extends JPanel implements Runnable {
 		pieces.add(new Rook(0, 7, "white", "rook", false));
 		pieces.add(new Rook(7, 7, "white", "rook", false));
 
-		pieces.add(new Knight(1, 0, "black", "knight", false));
-		pieces.add(new Knight(6, 0, "black", "knight", false));
-		pieces.add(new Knight(1, 7, "white", "knight", false));
-		pieces.add(new Knight(6, 7, "white", "knight", false));
+		// pieces.add(new Knight(1, 0, "black", "knight", false));
+		// pieces.add(new Knight(6, 0, "black", "knight", false));
+		// pieces.add(new Knight(1, 7, "white", "knight", false));
+		// pieces.add(new Knight(6, 7, "white", "knight", false));
 
-		pieces.add(new Bishop(2, 0, "black", "bishop", false));
-		pieces.add(new Bishop(5, 0, "black", "bishop", false));
-		pieces.add(new Bishop(2, 7, "white", "bishop", false));
-		pieces.add(new Bishop(5, 7, "white", "bishop", false));
+		// pieces.add(new Bishop(2, 0, "black", "bishop", false));
+		// pieces.add(new Bishop(5, 0, "black", "bishop", false));
+		// pieces.add(new Bishop(2, 7, "white", "bishop", false));
+		// pieces.add(new Bishop(5, 7, "white", "bishop", false));
 
-		pieces.add(new Queen(3, 0, "black", "queen", false));
-		pieces.add(new Queen(3, 7, "white", "queen", false));
+		// pieces.add(new Queen(3, 0, "black", "queen", false));
+		// pieces.add(new Queen(3, 7, "white", "queen", false));
 
 		pieces.add(new King(4, 0, "black", "king", false));
 		pieces.add(new King(4, 7, "white", "king", false));
@@ -96,11 +96,56 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 	
 
-	void choosePromotionPiece() {
+	void setUpPromotedPieces() {
+		promotedPieces.add(new Queen(9, 2, currentColor, "queen", false));
+		promotedPieces.add(new Rook(9, 3, currentColor, "rook", false));
+		promotedPieces.add(new Knight(9, 4, currentColor, "knight", false));
+		promotedPieces.add(new Bishop(9, 5, currentColor, "bishop", false));
+	}
 
+	void choosePromotionPiece() {
+		for (Piece piece : promotedPieces) {
+			if (piece.curCol == mouse.x / SIZE && piece.curRow == mouse.y / SIZE) {		
+				int prePosX = activeP.curCol;
+				int prePosY = activeP.curRow;
+				pieces.remove(activeP);
+				
+				switch (piece.name) {
+					case "queen":
+						activeP = new Queen(prePosX, prePosY, piece.color, piece.name, true);
+						break;	
+					case "rook":
+						activeP = new Rook(prePosX, prePosY, piece.color, piece.name, true);	
+						break;
+					case "knight":	
+						activeP = new Knight(prePosX, prePosY, piece.color, piece.name, true);	
+						break;
+					case "bishop":	
+						activeP = new Bishop(prePosX, prePosY, piece.color, piece.name, true);	
+						break;
+					default:
+						activeP = new Queen(prePosX, prePosY, piece.color, piece.name, true);
+						break;
+				}
+				pieces.add(activeP);
+				promotion = false;
+				activeP = null;
+				currentColor = (currentColor == "white" ? "black" : "white");
+			}
+		}
+		if (promotion == false){
+			promotedPieces.clear();
+		}
 	}		
 
 	private void update() {
+		if (promotion) {
+			if (mouse.pressed) {
+				choosePromotionPiece();
+			}
+			return;
+		}
+		
 		if (mouse.pressed) {
 			if (activeP == null) {
 				for (Piece piece : pieces) {
@@ -117,10 +162,17 @@ public class GamePanel extends JPanel implements Runnable {
 				System.out.println(activeP.color + " " + activeP.name);
 				Move tmpMove = activeP.validMove(board);
 				
-				if (tmpMove != null) {
-					
-					activeP.finalUpdatePosition();
+				if (tmpMove != null) {	
+					activeP.finalUpdatePosition(activeP.newCol, activeP.newRow);
 					board.performMove(tmpMove);
+				
+					if (tmpMove.castlingPiece != null) {
+						if (tmpMove.castlingPiece.curCol == 7) {
+							tmpMove.castlingPiece.finalUpdatePosition(tmpMove.movedPiece.newCol - 1, tmpMove.castlingPiece.newRow);
+						} else {
+							tmpMove.castlingPiece.finalUpdatePosition(tmpMove.movedPiece.newCol + 1, tmpMove.castlingPiece.newRow);
+						}
+					}
 					
 					if (tmpMove.capturedPiece != null) {
 						for (Piece iPiece : pieces) {
@@ -142,7 +194,7 @@ public class GamePanel extends JPanel implements Runnable {
 					
 					if (tmpMove.isPromotion){
 						promotion = true;
-						//setUpPromotedPieces();
+						setUpPromotedPieces();
 						return;
 					} else {
 						currentColor = (currentColor == "white" ? "black" : "white");
@@ -160,8 +212,8 @@ public class GamePanel extends JPanel implements Runnable {
 	private void simulate() {
 		activeP.x = mouse.x - HALF_SIZE;
 		activeP.y = mouse.y - HALF_SIZE;
-		activeP.newCol = activeP.x;
-		activeP.newRow = activeP.y;
+		activeP.newCol = (activeP.x + HALF_SIZE) / SIZE;
+		activeP.newRow = (activeP.y + HALF_SIZE) / SIZE;
 	}
 	
 	protected void paintComponent(Graphics g) {
@@ -186,6 +238,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 		if (activeP != null){
 			activeP.draw(g2);
+			//System.out.println("Active piece: " + activeP.curCol + " " + activeP.curRow + " " + activeP.color + " " + activeP.name);
 		}
 
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

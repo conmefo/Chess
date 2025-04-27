@@ -88,7 +88,9 @@ public abstract class Piece {
 		newRow = curRow;
 	}
 
-	public void finalUpdatePosition() {
+	public void finalUpdatePosition(int nCol, int nRow) {
+		newCol = nCol;
+		newRow = nRow;
 		x = getCorX(newCol);
 		y = getCorY(newRow);
 		hasMoved = true;

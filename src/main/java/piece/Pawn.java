@@ -121,6 +121,7 @@ public class Pawn extends Piece {
     public Move validMove (int targetX, int targetY, Board board) {
         System.out.println("Validating move for Pawn: " + this.color + " " + this.name + " " + this.hasMoved);
         System.out.println("Current Position: (" + curCol + ", " + curRow + ")");
+        System.out.println("Target Position: (" + targetX + ", " + targetY + ")");
         int dir = this.color.equals("white") ? -1 : 1;
 
         // 1 step forward
@@ -136,6 +137,7 @@ public class Pawn extends Piece {
         int twoStepY = curRow + 2 * dir;
 
         System.out.println("Two Step: " + twoStepX + ", " + twoStepY);
+        
         if (!hasMoved &&
             board.inBoard(twoStepX, twoStepY) &&
             board.getPiece(twoStepX, twoStepY) == null &&
