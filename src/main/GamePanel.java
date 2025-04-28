@@ -15,9 +15,9 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable {
-	public static final int SIZE = 50;
-	public static final int HALF_SIZE = SIZE / 2;
-	public static final int PADDING_SIZE = SIZE / 10;
+	public static int SIZE = 50;
+	public static int HALF_SIZE = 50 / 2;
+	public static int PADDING_SIZE = 50 / 10;
 	public static final int HEIGHT = 8;
 	public static final int WIDTH = 11;
 	final int FPS = 60;
@@ -230,6 +230,14 @@ public class GamePanel extends JPanel implements Runnable {
 	
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+
+		int panelWidth = getWidth();
+		int panelHeight = getHeight();
+
+	
+		SIZE = Math.min(panelWidth, panelHeight) / 8;
+		HALF_SIZE = SIZE / 2;
+		PADDING_SIZE = SIZE / 10;
 		
 		Graphics2D g2 = (Graphics2D) g;
 		board.draw(g2);
@@ -241,15 +249,16 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 
 		for (Piece p : simPieces) {
-			p.draw(g2);
+			if (p != activeP)
+			p.draw(g2, false);
 		}
 
 		for (Piece p : promotedPieces) {
-			p.draw(g2);
+			p.draw(g2, false);
 		}
 
 		if (activeP != null){
-			activeP.draw(g2);
+			activeP.draw(g2, true);
 		}
 
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

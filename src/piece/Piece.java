@@ -32,7 +32,9 @@ public abstract class Piece {
 		this.image = loadImage("/assets/" + color + "-" + name + ".png");
 	}
 
-	public void draw(Graphics2D g2) {
+	public void draw(Graphics2D g2, boolean isSelected) {
+		if (!isSelected)
+		updateXYFromPosition();
 		if (image != null && position != null) {
 			int tmp = GamePanel.PADDING_SIZE;
 			tmp = 0;

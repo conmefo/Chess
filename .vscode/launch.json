@@ -6,6 +6,13 @@
             "name": "Main",
             "request": "launch",
             "mainClass": "ChessUwu/main.Main",
+            "projectName": "fchess"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "ChessUwu/main.Main",
             "projectName": "simple-chess-game"
         },
         {

@@ -14,7 +14,8 @@ public class Main {
 		window.add(gamePanel);
 		window.pack();
 		
-		window.setLocationRelativeTo(null);
+		window.setResizable(true);
+
 		window.setVisible(true);
 
 		System.out.println("Game started!");
