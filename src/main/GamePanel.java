@@ -12,6 +12,8 @@ import piece.Queen;
 import piece.Rook;
 
 import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -19,7 +21,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public static int HALF_SIZE = 50 / 2;
 	public static int PADDING_SIZE = 50 / 10;
 	public static final int HEIGHT = 8;
-	public static final int WIDTH = 11;
+	public static final int WIDTH = 12;
 	final int FPS = 60;
 	final double TIME_PER_FRAME = 1000000000 / FPS;
 	
@@ -35,6 +37,42 @@ public class GamePanel extends JPanel implements Runnable {
 	boolean promotion = false;	
 	String currentColor = "white";
 	
+	public static Font loadFont(String resourcePath, float size) {
+        Font customFont = null;
+        InputStream is = null;
+        try {
+            is = ArcadeFontDemo.class.getResourceAsStream(resourcePath);
+
+            if (is == null) {
+                System.err.println("Error: Font resource not found at path: " + resourcePath);
+                return new Font(Font.SANS_SERIF, Font.PLAIN, (int) size);
+            }
+
+            customFont = Font.createFont(Font.TRUETYPE_FONT, is);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(customFont);
+            return customFont.deriveFont(size);
+
+        } catch (FontFormatException e) {
+            System.err.println("Error loading font: Font format is invalid or unsupported.");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.err.println("Error loading font: Could not read font file (IO Exception).");
+            e.printStackTrace();
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        System.err.println("Failed to load custom font '" + resourcePath + "', returning default SansSerif.");
+        return new Font(Font.SANS_SERIF, Font.PLAIN, (int) size);
+    }
+
 	 
 	public GamePanel(){
 		setPreferredSize(new Dimension(WIDTH * SIZE, HEIGHT * SIZE));
@@ -45,6 +83,18 @@ public class GamePanel extends JPanel implements Runnable {
 		//testPromotion();
 		setPiece();
 
+		copyPiece(pieces, simPieces);
+	}
+
+	void resetGame(){
+		activeP = null;
+		promotion = false;
+		currentColor = "white";
+		promotedPieces.clear();
+		simPieces.clear();
+		pieces.clear();
+		board = new Board();
+		setPiece();
 		copyPiece(pieces, simPieces);
 	}
 	
@@ -262,16 +312,20 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g2.setFont(new Font("Arial", Font.PLAIN, 20));
+		String fontResourcePath = "/fonts/ARCADECLASSIC.ttf"; // <--- CHANGE THIS
+        float fontSize = SIZE * 2 / 5; // Example size
+        final Font arcadeFont = loadFont(fontResourcePath, fontSize);
+		g2.setFont(arcadeFont);
 		g2.setColor(Color.white);	
 		
+		int textPos = 8 * SIZE + (Math.max(panelHeight, panelWidth) - SIZE * 8) / 4;
 		if (promotion){
-			g2.drawString("Promotion", 8 * SIZE + 20, SIZE + HALF_SIZE);
+			g2.drawString("Promotion", textPos, SIZE + HALF_SIZE);
 		} else
 		if (currentColor == "white") {
-			g2.drawString("White's turn", 8 * SIZE + 20, SIZE + HALF_SIZE);
+			g2.drawString("White", textPos, SIZE + HALF_SIZE);
 		} else {
-			g2.drawString("Black's turn", 8 * SIZE + 20, SIZE + HALF_SIZE);
+			g2.drawString("Black", textPos, SIZE + HALF_SIZE);
 		}
 	}
 }

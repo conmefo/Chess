@@ -51,7 +51,7 @@ public abstract class Piece {
 
 	private BufferedImage loadImage(String imagePath) {
 		BufferedImage img = null;
-		System.out.println("Loading image: " + imagePath);
+		//System.out.println("Loading image: " + imagePath);
 		try {
 			img = ImageIO.read(getClass().getResourceAsStream(imagePath));
 		} catch (IOException e) {

@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ArcadeFontDemo",
+            "request": "launch",
+            "mainClass": "ChessUwu/main.ArcadeFontDemo",
+            "projectName": "fchess"
+        },
+        {
+            "type": "java",
             "name": "Main",
             "request": "launch",
             "mainClass": "ChessUwu/main.Main",
